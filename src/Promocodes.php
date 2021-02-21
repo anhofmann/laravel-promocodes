@@ -48,9 +48,9 @@ class Promocodes
     /**
      * Number of days of code expiration
      *
-     * @var null|int
+     * @var null|Carbon
      */
-    protected $expires_in = null;
+    protected $expires_at = null;
 
     /**
      * Maximum number of available usage of code
@@ -131,9 +131,9 @@ class Promocodes
      * @param int $amount
      * @param null $reward
      * @param array $data
-     * @param int|null $expires_in
-     * @param bool $is_disposable
+     * @param Carbon|null $expires_at
      * @param int|null $quantity
+     * @param bool $is_disposable
      *
      * @return \Illuminate\Support\Collection
      */
@@ -141,7 +141,7 @@ class Promocodes
         $amount = null,
         $reward = null,
         $data = null,
-        $expires_in = null,
+        $expires_at = null,
         $quantity = null,
         $is_disposable = null
     )
@@ -153,7 +153,7 @@ class Promocodes
                 'code' => $code,
                 'reward' => $this->getReward($reward),
                 'data' => json_encode($this->getData($data)),
-                'expires_at' => $this->getExpiresIn($expires_in) ? Carbon::now()->addDays($this->getExpiresIn($expires_in)) : null,
+                'expires_at' => $this->getExpiresAt($expires_at),
                 'is_disposable' => $this->getDisposable($is_disposable),
                 'quantity' => $this->getQuantity($quantity),
             ];
@@ -309,25 +309,26 @@ class Promocodes
     }
 
     /**
-     * Get custom set expiration days value
+     * Get custom set expiration date
      *
-     * @param null|int $request
-     * @return null|int
+     * @param null|Carbon $request
+     * @return null|Carbon
      */
-    public function getExpiresIn($request)
+    public function getExpiresAt($request)
     {
-        return $request !== null ? $request : $this->expires_in;
+        return $request !== null ? $request : $this->expires_at;
     }
 
     /**
      * Set custom expiration days value
      *
-     * @param int $expires_in
+     * @param Carbon $expires_at
+     *
      * @return $this
      */
-    public function setExpiresIn($expires_in)
+    public function setExpiresAt($expires_at)
     {
-        $this->expires_in = $expires_in;
+        $this->expires_at = $expires_at;
         return $this;
     }
 
