@@ -9,6 +9,14 @@ use Illuminate\Database\Eloquent\Model;
  * @method static byCode(string $code)
  * @method static pluck(string $string)
  * @method static insert(array $records)
+ * @property int    $id
+ * @property int    $quantity
+ * @property string $code
+ * @property array  $data
+ * @property float  $reward
+ * @property bool   $is_disposable
+ * @property Carbon $expires_at
+ * @mixin \Eloquent
  */
 class Promocode extends Model
 {
